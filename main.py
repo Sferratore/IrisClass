@@ -20,3 +20,6 @@ from sklearn.svm import SVC
 url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv"  # Dataset from UCI Machine Learning Repository
 names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class'] # Column names
 dataset = read_csv(url, names=names) # Dataset will contain the data from the url organized by the columns defined in "names"
+
+# Printing Shape, which consists of instances (rows) and attributes (columns)
+print(dataset.shape)
