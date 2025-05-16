@@ -22,4 +22,13 @@ names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class'] 
 dataset = read_csv(url, names=names) # Dataset will contain the data from the url organized by the columns defined in "names"
 
 # Printing Shape, which consists of instances (rows) and attributes (columns)
+print("----------------SHAPE:--------------- \n")
 print(dataset.shape)
+
+# Printing Head, actually viewing 20 rows of data
+print("----------------HEAD 20:--------------- \n")
+print(dataset.head(20))
+
+# Looking at data by attribute
+print("----------------ATTRIBUTE DESCRIPTION:--------------- \n")
+print(dataset.describe())
