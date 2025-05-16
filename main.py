@@ -32,3 +32,7 @@ print(dataset.head(20))
 # Looking at data by attribute
 print("----------------ATTRIBUTE DESCRIPTION:--------------- \n")
 print(dataset.describe())
+
+# Looking at rows that belong to each class
+print("----------------CLASS DESCRIPTION:--------------- \n")
+print(dataset.groupby('class').size())
