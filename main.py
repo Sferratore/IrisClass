@@ -36,3 +36,15 @@ print(dataset.describe())
 # Looking at rows that belong to each class
 print("----------------CLASS DESCRIPTION:--------------- \n")
 print(dataset.groupby('class').size())
+
+# Questo box plot serve per capire come sono distribuiti i numeri in ogni colonna del dataset.
+# Ogni "scatola" (box) rappresenta una colonna e ti fa vedere:
+# - La riga nel mezzo è la mediana: cioè il numero che sta proprio a metà se ordini tutti i valori.
+# - Il box (la scatola) va dal 25% al 75% dei valori: mostra dove si concentrano la maggior parte dei dati.
+# - Le linee che escono dalla scatola (chiamate "baffi" o whiskers) vanno verso i valori più piccoli e più grandi,
+#   ma solo finché sono ancora "normali" (non troppo lontani).
+# - I puntini fuori dai baffi sono i valori anomali (outlier): numeri troppo alti o troppo bassi rispetto agli altri.
+# In pratica, con questo grafico puoi vedere velocemente com’è fatta ogni colonna: se ha valori strani, se i dati
+# sono distribuiti in modo equilibrato o se sono tutti spostati verso l’alto o il basso.
+dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+plt.show()
