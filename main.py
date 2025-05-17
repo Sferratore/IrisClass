@@ -48,3 +48,24 @@ print(dataset.groupby('class').size())
 # sono distribuiti in modo equilibrato o se sono tutti spostati verso l’alto o il basso.
 dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
 plt.show()
+
+# Istogrammi sulle colonne
+dataset.hist()
+plt.show()
+
+# Questo comando crea una "scatter plot matrix", cioè una griglia di grafici a dispersione (uno per ogni coppia di colonne numeriche).
+# Ogni piccolo grafico mostra come si comportano due variabili del dataset una rispetto all’altra:
+# - sull'asse orizzontale c'è una variabile, su quello verticale un'altra.
+# - ogni punto rappresenta una riga del dataset, cioè un'osservazione (es. una persona, un oggetto, ecc.).
+
+# Il grafico serve soprattutto per vedere se c’è una "correlazione", cioè:
+# - Se al crescere di una variabile cresce anche l’altra (correlazione positiva), i punti tendono a formare una linea diagonale che sale.
+# - Se al crescere di una variabile l’altra diminuisce (correlazione negativa), i punti vanno in diagonale ma verso il basso.
+# - Se non c’è nessuna relazione, i punti sono sparsi a caso senza una forma chiara.
+
+# Nella diagonale della griglia spesso ci sono istogrammi o curve: mostrano com’è distribuita ogni variabile da sola (quali valori sono più frequenti).
+
+# In sintesi: questo grafico ti aiuta a capire se alcune colonne del dataset si influenzano tra loro
+# (cioè se sapere il valore di una ti aiuta a prevedere l’altra), e a individuare gruppi, tendenze o valori anomali.
+scatter_matrix(dataset)
+plt.show()
