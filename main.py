@@ -178,3 +178,7 @@ for name, model in models:
     # - cv_results.std(): la deviazione standard delle accuratezze → ci dice se il modello è stabile o se le prestazioni variano molto
     print('%s: %f (%f)' % (name, cv_results.mean(), cv_results.std()))
 
+    # Stampiamo i risultati per la visualizzazione su plot
+    plt.boxplot(results, tick_labels=names)
+    plt.title('Algorithm Comparison')
+    plt.show()
