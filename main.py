@@ -69,3 +69,32 @@ plt.show()
 # (cioè se sapere il valore di una ti aiuta a prevedere l’altra), e a individuare gruppi, tendenze o valori anomali.
 scatter_matrix(dataset)
 plt.show()
+
+# Qui si divide il dataset in due parti: una per addestrare il modello (train) e una per testarlo (validation).
+
+# 1. `array = dataset.values`
+#    Converte il DataFrame Pandas in un array NumPy. È utile per usarlo con funzioni di scikit-learn che si aspettano array.
+
+# 2. `X = array[:, 0:4]`
+#    Seleziona tutte le righe (`:`) e le colonne da 0 a 3 (cioè le prime 4).
+#    Queste colonne rappresentano le **caratteristiche** (input) che useremo per fare previsioni.
+
+# 3. `y = array[:, 4]`
+#    Seleziona la colonna 4, che è la **variabile target** (output), cioè quella che vogliamo prevedere.
+
+# 4. `train_test_split(...)`
+#    Questa funzione (importata da `sklearn.model_selection`) serve per dividere i dati in due insiemi:
+#    - uno per l'addestramento del modello (`X_train`, `Y_train`)
+#    - uno per la validazione/test del modello (`X_validation`, `Y_validation`)
+
+#    I parametri:
+#    - `test_size=0.20`: indica che il **20% dei dati** andrà al set di validazione,
+#      e quindi il **restante 80%** verrà usato per l'addestramento.
+#    - `random_state=1`: imposta il seme del generatore casuale.
+#      Serve per avere sempre la **stessa suddivisione** ogni volta che si esegue il codice (utile per confronto tra modelli).
+
+# Risultato: hai 4 array pronti per allenare il modello su 80% dei dati e testarlo sul 20% rimanente.
+array = dataset.values
+X = array[:,0:4]
+y = array[:,4]
+X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
