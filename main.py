@@ -98,3 +98,83 @@ array = dataset.values
 X = array[:,0:4]
 y = array[:,4]
 X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
+
+# Qui stiamo facendo uno "spot check", cioè una prova veloce di vari algoritmi di Machine Learning.
+# L'obiettivo è vedere, senza troppe impostazioni complicate, quali modelli si comportano meglio con il nostro dataset.
+# È una tecnica utile all'inizio di un progetto per farsi un'idea su quale modello conviene concentrarsi poi in modo più approfondito.
+
+models = []  # Creiamo una lista vuota dove andremo a inserire diversi modelli di classificazione da provare.
+
+# Adesso aggiungiamo i modelli alla lista.
+# Ogni elemento che aggiungiamo è una coppia (tupla): un nome abbreviato del modello e l'oggetto che rappresenta il modello stesso.
+
+models.append(('LR', LogisticRegression(solver='liblinear', multi_class='ovr')))
+# 'LR' sta per Logistic Regression (regressione logistica), un algoritmo base di classificazione.
+# È spesso il punto di partenza nei progetti di classificazione.
+# 'liblinear' è il solver (cioè l'algoritmo interno che ottimizza il modello) ed è adatto per dataset piccoli.
+# 'multi_class=ovr' significa "One-vs-Rest", cioè il modello viene adattato per classificare più di due classi
+# confrontando ogni classe contro tutte le altre una alla volta.
+
+models.append(('LDA', LinearDiscriminantAnalysis()))
+# 'LDA' sta per Linear Discriminant Analysis.
+# È un algoritmo che cerca di trovare una combinazione lineare di variabili (features) che separi meglio le classi.
+# Funziona bene se le classi sono ben distribuite e separate.
+
+models.append(('KNN', KNeighborsClassifier()))
+# 'KNN' sta per K-Nearest Neighbors.
+# Questo modello classifica un nuovo dato in base ai 'k' dati più vicini a esso nel dataset.
+# È molto intuitivo: se i tuoi vicini sono quasi tutti "gatti", probabilmente sei un "gatto" anche tu.
+
+models.append(('CART', DecisionTreeClassifier()))
+# 'CART' sta per Classification and Regression Tree.
+# È un albero decisionale: costruisce una serie di domande (del tipo "il valore X è maggiore di 3.5?")
+# e segue i rami dell'albero fino a decidere la classe a cui appartiene un dato.
+
+models.append(('NB', GaussianNB()))
+# 'NB' sta per Naive Bayes, qui nella sua versione Gaussiana.
+# È un modello probabilistico molto veloce e semplice.
+# Funziona bene se i dati seguono una distribuzione normale (a campana) e se le features sono indipendenti tra loro.
+
+models.append(('SVM', SVC(gamma='auto')))
+# 'SVM' sta per Support Vector Machine.
+# Questo modello cerca di tracciare il confine (detto iperpiano) che separa al meglio le classi.
+# È molto potente per dati complessi, anche se può essere più lento e difficile da ottimizzare.
+# 'gamma=auto' imposta un parametro interno che controlla quanto il modello è "rigido" o "flessibile".
+
+# Ora vogliamo testare ciascun modello per vedere quanto è preciso (accuratezza).
+# Per farlo useremo una tecnica chiamata "validazione incrociata".
+
+results = []  # Lista dove salveremo i risultati (le percentuali di accuratezza) di ogni modello.
+names = []  # Lista dove salveremo solo i nomi dei modelli, per riferimento successivo.
+
+for name, model in models:
+    # Usiamo StratifiedKFold, una tecnica di validazione incrociata.
+    # Significa che dividiamo il nostro set di dati in 10 parti (fold).
+    # Ogni volta alleniamo il modello su 9 parti e lo testiamo sulla parte rimanente.
+    # Lo facciamo 10 volte, ruotando ogni volta la parte usata per il test.
+    # 'Stratified' vuol dire che ogni fold mantiene la stessa proporzione di classi del dataset originale.
+    # Questo è molto importante nei problemi di classificazione per non falsare i risultati.
+
+    kfold = StratifiedKFold(n_splits=10, random_state=1, shuffle=True)
+    # n_splits=10 → facciamo 10 divisioni
+    # random_state=1 → imposta il seme casuale, per avere risultati ripetibili ogni volta che esegui il codice
+    # shuffle=True → mescola i dati prima di fare le divisioni, utile per evitare partizioni sbilanciate
+
+    # cross_val_score esegue effettivamente la validazione incrociata.
+    # Allena il modello su 9 parti e lo valuta sulla decima, ripetuto 10 volte.
+    # 'scoring="accuracy"' significa che usiamo la metrica "accuratezza", cioè la percentuale di casi classificati correttamente.
+
+    cv_results = cross_val_score(model, X_train, Y_train, cv=kfold, scoring='accuracy')
+
+    # Aggiungiamo i risultati ottenuti alla lista 'results' per usarli più avanti (es. per confronti o grafici)
+    results.append(cv_results)
+
+    # Aggiungiamo anche il nome del modello alla lista dei nomi
+    names.append(name)
+
+    # Stampiamo i risultati in modo leggibile:
+    # - name: il nome del modello
+    # - cv_results.mean(): la media delle accuratezze sui 10 fold → ci dice quanto è "buono" il modello in media
+    # - cv_results.std(): la deviazione standard delle accuratezze → ci dice se il modello è stabile o se le prestazioni variano molto
+    print('%s: %f (%f)' % (name, cv_results.mean(), cv_results.std()))
+
