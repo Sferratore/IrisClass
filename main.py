@@ -204,3 +204,31 @@ for name, model in models:
     # 'X_validation' sono i dati di input (come X_train, ma non usati per l'addestramento).
     # Il risultato sarà un array con una previsione (classe) per ogni riga di 'X_validation'.
     # Ora possiamo confrontare queste previsioni con i valori reali (Y_validation) per valutare l'accuratezza del modello.
+
+    # Ora che il modello ha fatto delle previsioni, dobbiamo confrontarle con i veri risultati (Y_validation)
+    # per capire quanto è stato bravo a classificare correttamente i dati.
+    print("---------------ACCURACY---------------")
+    print(accuracy_score(Y_validation, predictions))
+    # accuracy_score confronta ogni previsione fatta con il valore reale corrispondente.
+    # Restituisce un numero tra 0 e 1 che rappresenta la percentuale di previsioni corrette.
+    # Es: 0.966 significa che il 96.6% dei dati di test è stato classificato correttamente.
+
+    print("---------------CONFUSION---------------")
+    print(confusion_matrix(Y_validation, predictions))
+    # La confusion matrix (matrice di confusione) ti mostra nel dettaglio dove il modello ha fatto giusto o sbagliato.
+    # È una tabella quadrata in cui:
+    # - le righe rappresentano le classi reali (quelle vere)
+    # - le colonne rappresentano le classi previste (dal modello)
+    # I numeri nella diagonale (dall’alto a sinistra in basso a destra) sono i casi corretti.
+    # Gli altri numeri sono gli errori: ad esempio, quante volte il modello ha confuso la classe A con la B.
+
+    print("---------------REPORT---------------")
+    print(classification_report(Y_validation, predictions))
+    # Questo report dà una valutazione completa per ogni classe del dataset.
+    # Mostra varie metriche:
+    # - precision: quante delle previsioni fatte per una classe erano corrette
+    # - recall: quanti dei casi reali di quella classe sono stati trovati
+    # - f1-score: combinazione di precision e recall, utile quando c’è squilibrio tra le classi
+    # - support: quanti esempi reali c’erano per quella classe nel set di validazione
+
+    # Questo report è molto utile per capire se il modello funziona bene su tutte le classi o solo su alcune.
