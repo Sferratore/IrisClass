@@ -182,3 +182,25 @@ for name, model in models:
     plt.boxplot(results, tick_labels=names)
     plt.title('Algorithm Comparison')
     plt.show()
+
+    # Ora che abbiamo testato diversi modelli, scegliamo uno di essi (in questo caso la SVM)
+    # e lo usiamo per fare previsioni su dati mai visti prima: quelli del validation set (20% dei dati totali).
+    # Questo è il test "finale" per vedere come il modello si comporta nel mondo reale, fuori dal training.
+
+    model = SVC(gamma='auto')
+    # Creiamo un'istanza del modello SVM (Support Vector Machine).
+    # È lo stesso tipo di modello che abbiamo usato prima nello spot check.
+    # 'gamma=auto' imposta un parametro tecnico che regola quanto il modello è sensibile ai singoli punti del dataset.
+    # Per ora non modifichiamo nulla: lo usiamo con impostazioni base.
+
+    model.fit(X_train, Y_train)
+    # Addestriamo (alleniamo) il modello usando il training set.
+    # 'X_train' contiene i dati di input (le caratteristiche, cioè le colonne da 0 a 3).
+    # 'Y_train' contiene le etichette da prevedere (es. il tipo di fiore, o qualunque altra classificazione).
+    # In questa fase il modello "impara" a riconoscere i pattern nei dati per poi poter fare previsioni su nuovi casi.
+
+    predictions = model.predict(X_validation)
+    # Facciamo le previsioni sul set di validazione, cioè sui dati che il modello NON ha mai visto.
+    # 'X_validation' sono i dati di input (come X_train, ma non usati per l'addestramento).
+    # Il risultato sarà un array con una previsione (classe) per ogni riga di 'X_validation'.
+    # Ora possiamo confrontare queste previsioni con i valori reali (Y_validation) per valutare l'accuratezza del modello.
