@@ -230,5 +230,3 @@ for name, model in models:
     # - recall: quanti dei casi reali di quella classe sono stati trovati
     # - f1-score: combinazione di precision e recall, utile quando c’è squilibrio tra le classi
     # - support: quanti esempi reali c’erano per quella classe nel set di validazione
-
-    # Questo report è molto utile per capire se il modello funziona bene su tutte le classi o solo su alcune.
